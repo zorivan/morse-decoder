@@ -37,8 +37,31 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+const chars = {
+    '10': '.',
+    '11': '-',
+    '0': ''
+}
+
 function decode(expr) {
-    // write your solution here
+  // write your solution here
+  return expr
+    .split("**********") // split string to words
+    .map((word) => {
+      return word
+        .match(/.{10}/g) // split word to letters
+        .reduce(
+          (decodedWord, letter) =>
+            (decodedWord +=
+              MORSE_TABLE[
+                letter
+                  .replace(/^0+/g, "") // remove leading zeros
+                  .replace(/10|11/g, (m) => chars[m])
+              ]),
+          ""
+        );
+    })
+    .join(" ");
 }
 
 module.exports = {
